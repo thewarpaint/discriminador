@@ -85,6 +85,60 @@
         }
       }
     </style>
+    <script type="text/javascript">
+      var Discriminator = {
+        data: {
+          homosexuals: [
+            {
+              subject: "Los homosexuales",
+              right: "pueden casarse entre sí",
+              reason: "porque es pecado",
+              adjective: "homofóbico",
+              justification: "tengo muchos amigos gays"
+            },
+            {
+              subject: "Los homosexuales",
+              right: "deben adoptar hijos",
+              reason: "no es natural",
+              adjective: "homofóbico",
+              justification: "conozco muchos que son buenas personas"
+            },
+            {
+              subject: "Los homosexuales",
+              right: "deberían demostrarse afecto en público",
+              reason: "es incómodo para los demás",
+              adjective: "homofóbico",
+              justification: "yo respeto sus preferencias"
+            }
+          ]
+        },
+
+        idPrefix: 'argument-',
+        currentKey: 'homosexuals',
+        currentIndex: 0,
+        interval: 7500,
+
+        init: function () {
+          setInterval(this.renderAndUpdate.bind(this), this.interval);
+          this.renderAndUpdate();
+        },
+
+        renderAndUpdate: function () {
+          this.render(this.data[this.currentKey][this.currentIndex]);
+          this.currentIndex = (this.currentIndex + 1) % this.data[this.currentKey].length;
+        },
+
+        render: function (argument) {
+          Object.keys(argument).forEach((function (attr) {
+            document.getElementById(this.idPrefix + attr).innerText = argument[attr];
+          }).bind(this));
+        }
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        Discriminator.init();
+      });
+    </script>
   </head>
   <body>
     <p class="intro">
@@ -94,10 +148,12 @@
     </p>
 
     <p class="shitty-argument">
-      <span class="quote">&ldquo;</span><span class="placeholder">Los homosexuales</span> no
-      <span class="placeholder">pueden casarse entre sí</span>, simplemente <span class="placeholder">porque
-      es pecado</span>. Y no, no soy <span class="placeholder">homofóbico</span>, de hecho,
-      <span class="placeholder">tengo muchos amigos gays</span>.<span class="quote">&rdquo;</span>
+      <span class="quote">&ldquo;</span>
+      <span id="argument-subject" class="placeholder"></span> no
+      <span id="argument-right" class="placeholder"></span>, simplemente
+      <span id="argument-reason" class="placeholder"></span>. Y no, no soy
+      <span id="argument-adjective" class="placeholder"></span>, de hecho,
+      <span id="argument-justification" class="placeholder"></span>.<span class="quote">&rdquo;</span>
     </p>
 
     <p class="time">circa 2010</p>
